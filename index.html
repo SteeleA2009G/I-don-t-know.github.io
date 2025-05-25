@@ -1,0 +1,104 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Urban Nights Gallery</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    header, main {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+    }
+    .gallery img {
+      width: 100%;
+      border-radius: 10px;
+    }
+    .auth-box {
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    input, button {
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Urban Nights Gallery</h1>
+    <div class="auth-box">
+      <h3>Sign Up / Log In</h3>
+      <input type="email" id="email" placeholder="Email" />
+      <input type="password" id="password" placeholder="Password" />
+      <button onclick="signUp()">Sign Up</button>
+      <button onclick="logIn()">Log In</button>
+      <p id="authMessage"></p>
+    </div>
+  </header>
+  <main>
+    <h2>Generated Images</h2>
+    <div class="gallery" id="gallery">
+      <!-- Image list -->
+      <img src="images/image1.png" alt="Generated Image 1" />
+      <img src="images/image2.png" alt="Generated Image 2" />
+      <img src="images/image3.png" alt="Generated Image 3" />
+      <img src="images/image4.png" alt="Generated Image 4" />
+    </div>
+  </main>  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAQNyTCxhEMj2Wc7pVqp1eH1afaRPWUfRA",
+      authDomain: "urbannightsgallery.firebaseapp.com",
+      projectId: "urbannightsgallery",
+      storageBucket: "urbannightsgallery.firebasestorage.app",
+      messagingSenderId: "474254457254",
+      appId: "1:474254457254:web:02e4b632b5f233ada63767",
+      measurementId: "G-FZVWTX04TD"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    window.signUp = () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(userCredential => {
+          document.getElementById("authMessage").textContent = "Signed up successfully!";
+        })
+        .catch(error => {
+          document.getElementById("authMessage").textContent = error.message;
+        });
+    };
+
+    window.logIn = () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      signInWithEmailAndPassword(auth, email, password)
+        .then(userCredential => {
+          document.getElementById("authMessage").textContent = "Logged in successfully!";
+        })
+        .catch(error => {
+          document.getElementById("authMessage").textContent = error.message;
+        });
+    };
+  </script></body>
+</html>
